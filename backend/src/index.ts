@@ -7,7 +7,6 @@ const server = express()
 server.use(express.json())
 
 dotenv.config();
-console.log('DATABASE_URL:', process.env.DATABASE_URL);
 
 server.use('/api', taskRoutes)
 

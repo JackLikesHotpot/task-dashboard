@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES6",
-    "module": "commonjs", // Or "ESNext" for ES modules
+    "module": "commonjs", 
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,

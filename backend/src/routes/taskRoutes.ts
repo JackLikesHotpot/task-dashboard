@@ -26,25 +26,29 @@ router.post('/create', async (req, res) => {
 router.get('/tasks', async (req, res) => {
   try {
     const tasks = await prisma.task.findMany()
-    res.json(tasks)
+    res.status(200).json(tasks)
   }
   catch (error) {
-    console.error(error)
     res.status(400).json({error: 'Error getting tasks'})
   }
 })
 
 // Get task by ID
 router.get('/tasks/:id', async (req, res) => {
-  const { id } = req.body
+  const { id } = req.params
 
   try {
     const task = await prisma.task.findUnique({
       where: {
-        id: id
+        id: Number(id)
       }
     })
+    if (!task) {
+      res.status(400).json({error: `Task with id ${id} does not exist`})
+    }
+    res.status(200).json(task)
   }
+
   catch (error) {
     res.status(400).json({error: `Error viewing task of id ${id}`})
   }
