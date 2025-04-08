@@ -2,24 +2,30 @@
   "name": "moj-dev-challenge",
   "private": true,
   "version": "0.0.0",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "jest --config jest.config.cjs"
+    "test": "jest --config jest.config.cjs",
+    "server": "npx tsx /backend/src/index.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.5.0",
+    "@tailwindcss/vite": "^4.1.3",
+    "axios": "^1.8.4",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^5.1.0",
     "prisma": "^6.5.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^4.1.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
     "@types/jest": "^29.5.14",
     "@types/react": "^19.0.10",
