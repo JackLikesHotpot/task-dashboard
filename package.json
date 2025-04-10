@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "jest --config jest.config.cjs",
-    "server": "npx tsx /backend/src/index.ts"
+    "server": "cd backend && npx tsx src/index.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.5.0",
