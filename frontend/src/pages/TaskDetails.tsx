@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import EditForm from '../components/EditForm/EditForm';
 
 interface Task {
@@ -17,6 +17,7 @@ const TaskDetails = () => {
   const [task, setTask] = useState<Task>()
   const [showEditForm, setShowEditForm] = useState(false)
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTask = async () => {
@@ -52,7 +53,11 @@ const TaskDetails = () => {
   }
 
   const handleClick = () => {
-    setShowEditForm(true)
+    setShowEditForm(prevValue => !prevValue)
+  }
+
+  const returnButton = () => {
+    navigate('/tasks')
   }
 
   if (!task) {
@@ -72,11 +77,14 @@ const TaskDetails = () => {
         <p className="mb-4 font-semibold text-lg"><strong>Updated At:</strong> <span className='font-mono'>{formatDate(task.updatedAt)}</span></p>
         <p className="mb-4 font-semibold text-lg"><strong>Due Date:</strong> <span className='font-mono'>{formatDate(task.dueDate)}</span></p>
 
-        <div className="text-center mt-15">
-          <a className="px-6 py-2 bg-green-400 text-white rounded-lg hover:bg-green-700 transition duration-400"
-            onClick={handleClick}>Edit Task</a>
-          <a href="/tasks" className="px-6 py-2 bg-blue-400 text-white rounded-lg hover:bg-blue-700 transition duration-400">Back to Task List</a>
-          <a className="px-6 py-2 bg-red-400 text-white rounded-lg hover:bg-red-700 transition duration-400">Delete Task</a>
+        <div className='buttons'>
+          <div className="text-center mt-15 gap-4">
+            <button type='button' className="px-6 py-2 bg-green-400 text-white rounded-lg hover:bg-green-700 transition duration-400"
+              onClick={handleClick}>Edit Task</button>
+            <button type='button' onClick={returnButton}
+            className="px-6 py-2 bg-blue-400 text-white rounded-lg hover:bg-blue-700 transition duration-400">Back to Task List</button>
+            <a className="px-6 py-2 bg-red-400 text-white rounded-lg hover:bg-red-700 transition duration-400">Delete Task</a>
+          </div>
         </div>
       </div>
 
@@ -89,6 +97,7 @@ const TaskDetails = () => {
           dueDate={task.dueDate}
           createdAt={task.createdAt}
           updatedAt={task.updatedAt}
+          editFormClick={handleClick}
         />
       )}
     </div>
