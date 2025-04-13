@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import Task from './components/Task/Task'
-import '../src/App.css'
+import Task from '../components/Task/Task'
 
 interface Task {
   id: number;
@@ -13,7 +12,7 @@ interface Task {
   updatedAt: string;
 }
 
-const App = () => {
+const TaskList = () => {
   
   const [tasks, setTasks] = useState<Task[]>([])
 
@@ -51,4 +50,4 @@ const App = () => {
   )
 }
 
-export default App
+export default TaskList
