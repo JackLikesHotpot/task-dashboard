@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 import { useParams, useNavigate } from 'react-router-dom'
 import EditForm from '../components/EditForm/EditForm';
+import DeletePrompt from '../components/DeletePrompt/DeletePrompt';
+import formatDate from '../helpers/formatDate';
+import formatStatus from '../helpers/formatStatus';
 
 interface Task {
   id: number;
@@ -16,6 +19,7 @@ interface Task {
 const TaskDetails = () => {
   const [task, setTask] = useState<Task>()
   const [showEditForm, setShowEditForm] = useState(false)
+  const [showDeletePrompt, setShowDeletePrompt] = useState(false)
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -33,25 +37,6 @@ const TaskDetails = () => {
     fetchTask();
   }, [id]);
 
-  const formatStatus = (status: string | undefined) => {
-    if (status) {
-      const taskStatuses = {
-        'TO_DO' : 'To Do',
-        'BLOCKED': 'Blocked',
-        'COMPLETED': 'Completed',
-        'IN_PROGRESS': 'In Progress'
-      }
-      return taskStatuses[status] || 'Unknown'
-    }
-  }
-
-  const formatDate = (isoDate: string | undefined) => {
-    if (isoDate) {
-      return (`${new Date(isoDate).toLocaleTimeString()}, ${new Date(isoDate).toLocaleDateString()}`);
-    }
-    return ''
-  }
-
   const handleClick = () => {
     setShowEditForm(prevValue => !prevValue)
   }
@@ -60,14 +45,17 @@ const TaskDetails = () => {
     navigate('/tasks')
   }
 
+  const deleteButton = () => {
+    setShowDeletePrompt(prevValue => !prevValue)
+  }
+
   if (!task) {
     return <p className="text-center font-mono text-lg">Loading...</p>
   }
 
-
   return (
-    <div className={`${showEditForm ? 'bg-gray-200' : 'bg-white'}`}>
-      <div className={`container mx-auto p-6 shadow-lg rounded-xl mt-6 `}>
+    <div className='flex justify-center pt-50'>
+      <div className='bg-white container mx-auto p-6 shadow-lg rounded-xl mt-6'>
         <h2 className="text-3xl font-bold mb-4 text-center">Task Details</h2>
         <p className="mb-4 font-semibold text-lg"><strong>ID:</strong> {id}</p>
         <p className="mb-4 font-semibold text-lg"><strong>Title:</strong> {task.title}</p>
@@ -77,15 +65,14 @@ const TaskDetails = () => {
         <p className="mb-4 font-semibold text-lg"><strong>Updated At:</strong> <span className='font-mono'>{formatDate(task.updatedAt)}</span></p>
         <p className="mb-4 font-semibold text-lg"><strong>Due Date:</strong> <span className='font-mono'>{formatDate(task.dueDate)}</span></p>
 
-        <div className='buttons'>
-          <div className="text-center mt-15 gap-4">
+        <div className='buttons flex justify-center gap-2 mt-20'>
             <button type='button' className="px-6 py-2 bg-green-400 text-white rounded-lg hover:bg-green-700 transition duration-400"
               onClick={handleClick}>Edit Task</button>
             <button type='button' onClick={returnButton}
             className="px-6 py-2 bg-blue-400 text-white rounded-lg hover:bg-blue-700 transition duration-400">Back to Task List</button>
-            <a className="px-6 py-2 bg-red-400 text-white rounded-lg hover:bg-red-700 transition duration-400">Delete Task</a>
+            <button type='button' onClick={deleteButton}
+            className="px-6 py-2 bg-red-400 text-white rounded-lg hover:bg-red-700 transition duration-400">Delete Task</button>
           </div>
-        </div>
       </div>
 
       {showEditForm && (
@@ -98,6 +85,13 @@ const TaskDetails = () => {
           createdAt={task.createdAt}
           updatedAt={task.updatedAt}
           editFormClick={handleClick}
+        />
+      )}
+
+      {showDeletePrompt && (
+        <DeletePrompt
+          deletePrompt={deleteButton}
+          taskId={task.id}
         />
       )}
     </div>

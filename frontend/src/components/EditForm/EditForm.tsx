@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import formatStatus from '../../helpers/formatStatus';
 
 interface FormProps {
   id: number;
@@ -17,6 +18,7 @@ const EditForm: React.FC<FormProps> = ({ id, title, description, status, editFor
   const [formTitle, setFormTitle] = useState(title);
   const [formDescription, setFormDescription] = useState(description);
   const [formStatus, setFormStatus] = useState(status);
+  const statuses = ['TO_DO', 'IN_PROGRESS', 'BLOCKED', 'COMPLETED']
 
   const handleSubmit = async () => {
     try {
@@ -40,13 +42,13 @@ const EditForm: React.FC<FormProps> = ({ id, title, description, status, editFor
     setFormDescription(e.target.value);
   };
 
-  const handleStatusChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFormStatus(e.target.value);
   };
 
   return (
-    <div className="fixed inset-0 backdrop-blur-sm flex justify-center items-center z-50">
-      <div className="p-6 bg-white rounded-xl shadow-lg w-1/2">
+    <div className="fixed inset-0 backdrop-blur-sm flex justify-center items-center z-50" onClick={editFormClick}>
+      <div className="p-6 bg-white rounded-xl shadow-lg w-1/2" onClick={(e) => e.stopPropagation()}>
         <h3 className="text-xl font-semibold mb-4">Edit Task</h3>
         <form onSubmit={handleSubmit}>
           <div className="title-box mb-4">
@@ -61,8 +63,12 @@ const EditForm: React.FC<FormProps> = ({ id, title, description, status, editFor
           </div>
           <div className='status-box mb-4'>
             <label className='text-sm font-semibold'>Status</label>
-            <input type='text' defaultValue={status} value={formStatus}
-            className='w-full p-2 border rounded-md' onChange={handleStatusChange}/>
+            <select defaultValue={status} value={formStatus}
+            className='w-full p-2 border rounded-md' onChange={handleStatusChange}>
+              {statuses.map(status => (
+                <option value={status}>{formatStatus(status)}</option>
+              ))}
+            </select>
           </div>
           <div className='buttons flex gap-2'>
             <button type="button" 
