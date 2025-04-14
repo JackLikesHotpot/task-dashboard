@@ -50,7 +50,7 @@ const TaskDetails = () => {
   }
 
   if (!task) {
-    return <p className="text-center font-mono text-lg">Loading...</p>
+    return <></>
   }
 
   return (
