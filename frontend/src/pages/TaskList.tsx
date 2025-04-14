@@ -18,7 +18,7 @@ const TaskList = () => {
   const [tasks, setTasks] = useState<Task[]>([])
   const [newTask, showNewTask] = useState(false)
   const [loading, setLoading] = useState(true)
-  const statuses = ['TO_DO', 'IN_PROGRESS', 'BLOCKED', 'COMPLETED']
+  const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,16 +36,28 @@ const TaskList = () => {
   fetchData();
   }, [])
 
+  const filteredTasks = tasks.filter(task =>
+    task.title.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
   const addTaskButton = () => {
     showNewTask(true)
   }
 
   return (
     <div className='bg-slate-300 min-h-screen min-w-screen'>
-      <div className='tasks'>
+      <div className='task-search flex justify-center p-8'>
+      <input 
+        type='text' 
+        placeholder='Search tasks...' 
+        className='w-1/3 p-3 rounded-lg border border-slate-300 bg-white shadow-sm focus:outline-none'
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      </div>
+      <div className='tasks p-32'>
         {loading ? (
         <></>
-        ) : tasks.length > 0 ? tasks.map(task => (
+        ) : filteredTasks.length > 0 ? filteredTasks.map(task => (
         <Task
           id={task.id}
           title={task.title}
@@ -53,7 +65,9 @@ const TaskList = () => {
           dueDate={task.dueDate}
         />
       )) : 
-      <div className='prompt flex justify-center items-center min-h-screen'>
+      // refactor this part
+      
+      <div className='prompt flex justify-center items-center'>
         <div className='text pt-15 bg-white p-24 rounded-xl shadow-lg flex flex-col'>
           <span className='font-semibold'>There are no tasks. Consider adding some?</span>
           <button 
