@@ -1,6 +1,6 @@
-const formatStatus = (status: string | undefined) => {
+const formatStatus = (status: string) => {
   if (status) {
-    const taskStatuses = {
+    const taskStatuses: Record<string, string> = {
       'TO_DO' : 'To Do',
       'BLOCKED': 'Blocked',
       'COMPLETED': 'Completed',

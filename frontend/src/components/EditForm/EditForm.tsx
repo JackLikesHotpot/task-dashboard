@@ -33,11 +33,11 @@ const EditForm: React.FC<FormProps> = ({ id, title, description, status, dueDate
       setMissingField('Title field cannot be empty.')
       return;
     }
-    
+
     try {
       const response = await axios.put(`http://localhost:3000/api/tasks/${id}`, {
         title: formTitle,
-        status: formStatus,
+        status: formStatus || 'Unknown',
         description: formDescription,
         dueDate: formDueDate ? formDueDate.toISOString : null
       })

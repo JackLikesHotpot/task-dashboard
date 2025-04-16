@@ -28,7 +28,7 @@ const TaskForm: React.FC = ({}) => {
     try {
       const response = await axios.post(`http://localhost:3000/api/create`, {
         title: formTitle,
-        status: formStatus,
+        status: formStatus || 'Unknown',
         description: formDescription,
         dueDate: formDueDate ? formDueDate.toISOString() : null
       })
@@ -80,6 +80,7 @@ const TaskForm: React.FC = ({}) => {
             <label className='text-sm font-semibold'>Status</label>
             <select value={formStatus}
             className='w-full p-2 border rounded-md' onChange={handleStatusChange}>
+              <option value='' disabled/>
               {statuses.map(status => (
                 <option value={status}>{formatStatus(status)}</option>
               ))}

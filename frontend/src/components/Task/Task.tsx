@@ -24,12 +24,12 @@ const Task: React.FC<TaskProps> = ({ id, title, status, dueDate }) => {
   
   return (
     <div key={id} onClick={() => handleClick()}
-    className='task-card bg-white rounded-xl border-1 border-grey-100 shadow-lg p-4 min-h-22 max-w-84 '>
-      <div className='flex flex-row justify-between card-top'>
+    className='task-card bg-white rounded-xl border-1 border-grey-100 shadow-lg p-8 '>
+      <div className='flex flex-row justify-between'>
         <h2 className='task-title text-md font-semibold'>{shortenTitle(title)}</h2>
         <h3 className='task-status text-md'><strong>Status: </strong>{formatStatus(status)}</h3>
       </div>
-      <div className='flex flex-row justify-between card-bottom'>
+      <div className='flex flex-row justify-between'>
         <p className='text-xs pt-6 font-mono'>MOJ-{id}</p>
         <p className='text-xs pt-6 font-mono'>Due Date: {formatDate(dueDate)}</p>
       </div>
