@@ -57,14 +57,14 @@ router.get('/tasks/:id', async (req, res) => {
 // Update tasks
 router.put('/tasks/:id', async (req, res) => {
   const id = parseInt(req.params.id)
-  const { status, description } = req.body
+  const { title, status, description } = req.body
   try {
     const task = await prisma.task.update({
       where: {
         id: id
       },
       data: {
-        status, description, updatedAt: new Date(Date.now())
+        title, status, description, updatedAt: new Date(Date.now())
       }
     })
     res.json(task)
