@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import formatStatus from '../../helpers/formatStatus';
-import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
+import { useNavigate } from 'react-router-dom';
 
-const TaskForm: React.FC = ({}) => {
+interface TaskFormProps {
+  enableTaskModal: () => void;
+}
+
+const TaskForm: React.FC<TaskFormProps> = ({ enableTaskModal }) => {
 
   const [formTitle, setFormTitle] = useState('');
   const [formDescription, setFormDescription] = useState('');
@@ -15,7 +19,6 @@ const TaskForm: React.FC = ({}) => {
 
   const navigate = useNavigate();
   const statuses = ['TO_DO', 'IN_PROGRESS', 'BLOCKED', 'COMPLETED']
-
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,12 +31,13 @@ const TaskForm: React.FC = ({}) => {
     try {
       const response = await axios.post(`http://localhost:3000/api/create`, {
         title: formTitle,
-        status: formStatus || 'Unknown',
+        status: formStatus || 'TO_DO',
         description: formDescription,
         dueDate: formDueDate ? formDueDate.toISOString() : null
       })
       
       if (response.status === 200) {
+        enableTaskModal();
         navigate('/tasks')
       }
       else {
@@ -59,7 +63,7 @@ const TaskForm: React.FC = ({}) => {
   };
 
   return (
-    <div className="fixed inset-0 backdrop-blur-sm flex justify-center items-center z-50">
+    <div className="fixed inset-0 backdrop-blur-sm flex justify-center items-center z-50" onClick={enableTaskModal}>
       <div className="p-6 bg-white rounded-xl shadow-lg w-1/2" onClick={(e) => e.stopPropagation()}>
         <h3 className="text-xl font-semibold mb-4">Create Task</h3>
         <form>
@@ -89,13 +93,14 @@ const TaskForm: React.FC = ({}) => {
           <div className='datepicker-box mb-4 flex flex-col'>
             <label className='text-sm font-semibold'>Due Date</label>
             <DatePicker
+              className='focus:border-sky-500'
               showIcon
               selected={formDueDate}
               onChange={(date) => setFormDueDate(date)}/>
           </div>
           <div className='buttons flex gap-2'>
             <button type="submit" 
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer"
               onClick={(e) => handleSubmit(e)}>
               Create Task
             </button>

@@ -40,13 +40,13 @@ const TaskList = () => {
     task.title.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
-  const addTaskButton = () => {
-    showNewTask(true)
+  const enableModal = () => {
+    showNewTask(prevValue => !prevValue)
   }
 
   return (
     <div className='bg-slate-300 min-h-screen min-w-screen'>
-      <div className='task-search flex justify-center flex-row pt-10 p-4'>
+      <div className='task-search flex justify-center flex-row pt-4'>
       <input 
         type='text' 
         placeholder='Search tasks...' 
@@ -54,12 +54,14 @@ const TaskList = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
       />
       <button 
-        className='p-2 bg-blue-500 text-white rounded-lg ml-4'
-        onClick={addTaskButton}>Create Task</button>
+        className='p-2 bg-blue-500 text-white rounded-lg ml-4 hover:bg-blue-700 transition duration-400 cursor-pointer'
+        onClick={enableModal}>Create Task</button>
       </div>
-      <div className='tasks p-8 grid 
-      xl:gap-y-4 xl:px-20 xl:grid-cols-6 
-      lg:gap-y-4 lg:gap-x-4 lg:grid-cols-4 '>
+      <div className='tasks p-8 grid overflow-hidden
+      xl:gap-y-4 xl:px-20 xl:grid-cols-5
+      lg:gap-y-4 lg:gap-x-4 lg:grid-cols-4 
+      md:gap-y-4 md:grid-cols-3
+      sm:gap-4 sm:grid-cols-2'>
       {loading ? (
         <></>
       ) : filteredTasks.length > 0 && (
@@ -80,8 +82,8 @@ const TaskList = () => {
         <div className='text pt-15 bg-white p-24 rounded-xl shadow-lg flex flex-col'>
           <span className='font-semibold'>There are no tasks. Consider adding some?</span>
           <button 
-            onClick={addTaskButton}
-            className='mt-10 bg-blue-400 px-4 py-2 rounded-lg text-white hover:bg-blue-700 transition duration-300'>
+            onClick={enableModal}
+            className='mt-10 bg-blue-400 px-4 py-2 rounded-lg text-white hover:bg-blue-700 transition duration-300 cursor-pointer'>
             Add New Task</button>
         </div>
       </div>
@@ -89,7 +91,9 @@ const TaskList = () => {
       }
 
     {newTask && (
-      <TaskForm/>
+      <TaskForm
+      enableTaskModal={enableModal}
+      />
     )}
   </div>
   )
