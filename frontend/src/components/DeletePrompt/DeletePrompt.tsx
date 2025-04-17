@@ -32,12 +32,12 @@ const DeletePrompt: React.FC<PromptProps> = ({ deletePrompt, taskId }) => {
       <div className='prompt text-2xl'>Do you want to delete this task?</div>
       <div className='buttons flex gap-2'>
             <button type="button" 
-              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 cursor-pointer"
               onClick={() => handleDelete()}>
               Yes, Delete
             </button>
             <button type="button" 
-              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 cursor-pointer"
               onClick={deletePrompt}>
               No, Don't Delete
             </button>

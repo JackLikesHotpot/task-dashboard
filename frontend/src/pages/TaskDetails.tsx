@@ -71,7 +71,7 @@ const TaskDetails = () => {
             <button type='button' onClick={returnButton}
             className="px-6 py-2 bg-blue-400 text-white rounded-lg hover:bg-blue-700 transition duration-400 cursor-pointer">Back to Task List</button>
             <button type='button' onClick={deleteButton}
-            className="px-6 py-2 bg-red-400 text-white rounded-lg hover:bg-red-700 transition duration-400">Delete Task</button>
+            className="px-6 py-2 bg-red-400 text-white rounded-lg hover:bg-red-700 transition duration-400 cursor-pointer">Delete Task</button>
           </div>
       </div>
 
