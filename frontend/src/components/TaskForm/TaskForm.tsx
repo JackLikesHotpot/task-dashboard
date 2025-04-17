@@ -33,12 +33,12 @@ const TaskForm: React.FC<TaskFormProps> = ({ enableTaskModal }) => {
         title: formTitle,
         status: formStatus || 'TO_DO',
         description: formDescription,
-        dueDate: formDueDate ? formDueDate.toISOString() : null
+        dueDate: formDueDate ? formDueDate.toISOString() : Date.now()
       })
       
       if (response.status === 200) {
         enableTaskModal();
-        navigate('/tasks')
+        navigate(0)
       }
       else {
         console.error(response.status)
@@ -96,6 +96,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ enableTaskModal }) => {
               className='focus:border-sky-500'
               showIcon
               selected={formDueDate}
+              dateFormat="dd/MM/yyyy"
               onChange={(date) => setFormDueDate(date)}/>
           </div>
           <div className='buttons flex gap-2'>

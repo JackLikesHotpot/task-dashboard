@@ -34,7 +34,7 @@ const Task: React.FC<TaskProps> = ({ id, title, status, dueDate }) => {
       </div>
       <div className='flex flex-row justify-between mt-auto'>
         <p className='text-xs pt-6 font-mono'>MOJ-{id}</p>
-        <p className='text-xs pt-6 font-mono'>Due Date: {formatDate(dueDate)}</p>
+        <p className='text-xs pt-6 font-mono'>Due: {formatDate(dueDate)}</p>
       </div>
     </div>
   )

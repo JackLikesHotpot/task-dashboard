@@ -21,7 +21,7 @@ const EditForm: React.FC<FormProps> = ({ id, title, description, status, dueDate
   const [formTitle, setFormTitle] = useState(title);
   const [formDescription, setFormDescription] = useState(description);
   const [formStatus, setFormStatus] = useState(status);
-  const [formDueDate, setFormDueDate] = useState<Date | null>(new Date(dueDate));
+  const [formDueDate, setFormDueDate] = useState<string>(dueDate);
   const [missingField, setMissingField] = useState('')
   const statuses = ['TO_DO', 'IN_PROGRESS', 'BLOCKED', 'COMPLETED']
 
@@ -34,16 +34,18 @@ const EditForm: React.FC<FormProps> = ({ id, title, description, status, dueDate
       return;
     }
 
+    console.log(formDueDate)
+
     try {
       const response = await axios.put(`http://localhost:3000/api/tasks/${id}`, {
         title: formTitle,
-        status: formStatus || 'Unknown',
+        status: formStatus || 'TO_DO',
         description: formDescription,
-        dueDate: formDueDate ? formDueDate.toISOString : null
+        dueDate: formDueDate
       })
       
       if (response.status === 200) {
-        navigate('/tasks')
+        navigate(0)
       }
       else {
         console.error(response.status)
@@ -66,6 +68,12 @@ const EditForm: React.FC<FormProps> = ({ id, title, description, status, dueDate
   const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFormStatus(e.target.value);
   };
+
+  const handleDueDateChange = (date: Date | null) => {
+    if (date) {
+      setFormDueDate(date.toISOString())
+    }
+  }
 
   return (
     <div className="fixed inset-0 backdrop-blur-sm flex justify-center items-center z-50" onClick={editFormClick}>
@@ -99,17 +107,18 @@ const EditForm: React.FC<FormProps> = ({ id, title, description, status, dueDate
             <label className='text-sm font-semibold'>Due Date</label>
             <DatePicker
               showIcon
-              selected={formDueDate}
-              onChange={(date) => setFormDueDate(date)}/>
+              selected={formDueDate ? new Date(formDueDate) : null}
+              dateFormat="dd/MM/yyyy"
+              onChange={handleDueDateChange}/>
           </div>
           <div className='buttons flex gap-2'>
             <button type="button" 
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer"
               onClick={(e) => handleSubmit(e)}>
               Save Changes
             </button>
             <button type="button" 
-              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 cursor-pointer"
               onClick={editFormClick}>
               Discard Changes
             </button>
