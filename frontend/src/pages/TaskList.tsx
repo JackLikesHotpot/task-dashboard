@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Task from '../components/Task/Task'
-import TaskForm from '../components/TaskForm/TaskForm';
+import FormModal from '../components/FormModal/FormModal';
 
 interface Task {
   id: number;
@@ -91,8 +91,12 @@ const TaskList = () => {
       }
 
     {newTask && (
-      <TaskForm
-      enableTaskModal={enableModal}
+      <FormModal
+        mode='create'
+        title=''
+        status=''
+        dueDate=''
+        enableTaskModal={enableModal}
       />
     )}
   </div>

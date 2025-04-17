@@ -5,80 +5,83 @@ import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from 'react-router-dom';
 
-interface FormProps {
-  id: number;
+interface FormModalProps {
+  mode: 'create' | 'edit';
+  id?: number;
   title: string;
   description?: string;
   status: string;
   dueDate: string;
-  createdAt: string;
-  updatedAt: string;
-  editFormClick: () => void;
+  enableTaskModal: () => void;
 }
 
-const EditForm: React.FC<FormProps> = ({ id, title, description, status, dueDate, editFormClick }) => {
 
+const FormModal: React.FC<FormModalProps> = ({ mode, id, title, description, status, dueDate, enableTaskModal }) => {
   const [formTitle, setFormTitle] = useState(title);
   const [formDescription, setFormDescription] = useState(description);
   const [formStatus, setFormStatus] = useState(status);
-  const [formDueDate, setFormDueDate] = useState<string>(dueDate);
+  const [formDueDate, setFormDueDate] = useState(dueDate);
   const [missingField, setMissingField] = useState('')
-  const statuses = ['TO_DO', 'IN_PROGRESS', 'BLOCKED', 'COMPLETED']
 
   const navigate = useNavigate();
+  const statuses = ['TO_DO', 'IN_PROGRESS', 'BLOCKED', 'COMPLETED']
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (formTitle.length < 1 || !formTitle.trim()) { 
-      setMissingField('Title field cannot be empty.')
+    if (formTitle?.trim().length === 0) {
+      setMissingField('Title field cannot be empty.');
       return;
     }
 
-    console.log(formDueDate)
-
     try {
-      const response = await axios.put(`http://localhost:3000/api/tasks/${id}`, {
+      const formDetails = {
         title: formTitle,
         status: formStatus || 'TO_DO',
         description: formDescription,
         dueDate: formDueDate
-      })
-      
+      };
+
+      const url = mode === 'create' ? `http://localhost:3000/api/create` : `http://localhost:3000/api/tasks/${id}`;
+      const request = mode === 'create' ? axios.post(url, formDetails) : axios.put(url, formDetails)
+      const response = await request;
+
       if (response.status === 200) {
-        navigate(0)
-      }
+        enableTaskModal();
+        navigate(0);
+      } 
       else {
-        console.error(response.status)
+        console.error(response.status);
       }
     }
     catch (error) {
       console.error(error)
     }
-  }
+  };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormTitle(e.target.value);
-    setMissingField('')
-  };
-
-  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setFormDescription(e.target.value);
-  };
-
-  const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFormStatus(e.target.value);
-  };
-
-  const handleDueDateChange = (date: Date | null) => {
-    if (date) {
-      setFormDueDate(date.toISOString())
+      setFormTitle(e.target.value);
+      setMissingField('')
+    };
+  
+    const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setFormDescription(e.target.value);
+    };
+  
+    const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setFormStatus(e.target.value);
+    };
+  
+    const handleDueDateChange = (date: Date | null) => {
+      if (date) {
+        setFormDueDate(date.toISOString())
+      }
     }
-  }
 
   return (
-    <div className="fixed inset-0 backdrop-blur-sm flex justify-center items-center z-50" onClick={editFormClick}>
+    <div className="fixed inset-0 backdrop-blur-sm flex justify-center items-center z-50" onClick={enableTaskModal}>
       <div className="p-6 bg-white rounded-xl shadow-lg w-1/2" onClick={(e) => e.stopPropagation()}>
-        <h3 className="text-xl font-semibold mb-4">Edit Task</h3>
+        <h3 className="text-xl font-semibold mb-4">{mode === 'create' ? 'Create Task' : 'Edit Task'}</h3>
         <form>
           <div className="title-box mb-4">
           <div className='flex flex-row'>
@@ -111,22 +114,33 @@ const EditForm: React.FC<FormProps> = ({ id, title, description, status, dueDate
               dateFormat="dd/MM/yyyy"
               onChange={handleDueDateChange}/>
           </div>
+          {mode === 'edit' && (
+            <div className='buttons flex gap-2'>
+              <button type="button" 
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer"
+                onClick={(e) => handleSubmit(e)}>
+                Save Changes
+              </button>
+              <button type="button" 
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 cursor-pointer"
+                onClick={enableTaskModal}>
+                Discard Changes
+              </button>
+            </div>
+          )}
+          {mode === 'create' && (
           <div className='buttons flex gap-2'>
-            <button type="button" 
+            <button type="submit" 
               className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer"
               onClick={(e) => handleSubmit(e)}>
-              Save Changes
-            </button>
-            <button type="button" 
-              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 cursor-pointer"
-              onClick={editFormClick}>
-              Discard Changes
+              Create Task
             </button>
           </div>
+          )}
         </form>
       </div>
     </div>
     )
-  }
+}
 
-export default EditForm;
+export default FormModal

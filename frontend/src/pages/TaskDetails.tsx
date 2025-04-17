@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 import { useParams, useNavigate } from 'react-router-dom'
-import EditForm from '../components/EditForm/EditForm';
 import DeletePrompt from '../components/DeletePrompt/DeletePrompt';
 import formatDate from '../helpers/formatDate';
 import formatStatus from '../helpers/formatStatus';
+import FormModal from '../components/FormModal/FormModal';
 
 interface Task {
   id: number;
@@ -60,7 +60,7 @@ const TaskDetails = () => {
         <p className="mb-4 font-semibold text-lg"><strong>ID:</strong> {id}</p>
         <p className="mb-4 font-semibold text-lg wrap-anywhere"><strong>Title:</strong> {task.title}</p>
         <p className="mb-4 font-semibold text-lg wrap-anywhere"><strong>Description:</strong> {task.description || 'No description available.'}</p>
-        <p className="mb-4 font-semibold text-lg"><strong>Status:</strong> {formatStatus(task.status)}</p>
+        <p className="mb-4 font-semibold text-lg">Status: {formatStatus(task.status)}</p>
         <p className="mb-4 font-semibold text-lg"><strong>Created At:</strong> <span className='font-mono'>{formatDate(task.createdAt)}</span></p>
         <p className="mb-4 font-semibold text-lg"><strong>Updated At:</strong> <span className='font-mono'>{formatDate(task.updatedAt)}</span></p>
         <p className="mb-4 font-semibold text-lg"><strong>Due Date:</strong> <span className='font-mono'>{formatDate(task.dueDate)}</span></p>
@@ -76,15 +76,14 @@ const TaskDetails = () => {
       </div>
 
       {showEditForm && (
-        <EditForm
+        <FormModal
+          mode={'edit'}
           id={task.id}
           title={task.title}
           description={task.description}
           status={task.status}
           dueDate={task.dueDate}
-          createdAt={task.createdAt}
-          updatedAt={task.updatedAt}
-          editFormClick={handleClick}
+          enableTaskModal={handleClick}
         />
       )}
 
