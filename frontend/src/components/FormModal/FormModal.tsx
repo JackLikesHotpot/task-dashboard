@@ -39,7 +39,7 @@ const FormModal: React.FC<FormModalProps> = ({ mode, id, title, description, sta
         title: formTitle,
         status: formStatus || 'TO_DO',
         description: formDescription,
-        dueDate: formDueDate
+        dueDate: formDueDate || null
       };
 
       const url = mode === 'create' ? `http://localhost:3000/api/create` : `http://localhost:3000/api/tasks/${id}`;
@@ -88,17 +88,17 @@ const FormModal: React.FC<FormModalProps> = ({ mode, id, title, description, sta
             <label className="block text-sm font-medium">Title</label>
             <span className='text-xs text-red-400 pl-2'>{missingField}</span>
           </div>
-          <input type="text" defaultValue={title} value={formTitle} 
+          <input type="text" defaultValue={title} value={formTitle} data-cy='title-input'
           className="w-full p-2 border rounded-md" onChange={handleTitleChange}/>
           </div>
           <div className="description-box mb-4">
             <label className="text-sm font-semibold">Description</label>
-            <textarea defaultValue={description || ''} value={formDescription} 
+            <textarea defaultValue={description || ''} value={formDescription} data-cy='description-input'
             className="w-full p-2 border rounded-md" onChange={handleDescriptionChange}/>
           </div>
           <div className='status-box mb-4'>
             <label className='text-sm font-semibold'>Status</label>
-            <select defaultValue='' value={formStatus}
+            <select defaultValue='' value={formStatus} data-cy='status-select'
             className='w-full p-2 border rounded-md' onChange={handleStatusChange}>
               <option value='' disabled/>
               {statuses.map(status => (
@@ -109,19 +109,19 @@ const FormModal: React.FC<FormModalProps> = ({ mode, id, title, description, sta
           <div className='datepicker-box mb-4 flex flex-col'>
             <label className='text-sm font-semibold'>Due Date</label>
             <DatePicker
-              showIcon
+              showIcon data-cy='datepicker'
               selected={formDueDate ? new Date(formDueDate) : null}
               dateFormat="dd/MM/yyyy"
               onChange={handleDueDateChange}/>
           </div>
           {mode === 'edit' && (
             <div className='buttons flex gap-2'>
-              <button type="button" 
+              <button type="button" data-cy='save-button'
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer"
                 onClick={(e) => handleSubmit(e)}>
                 Save Changes
               </button>
-              <button type="button" 
+              <button type="button" data-cy='discard-button'
                 className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 cursor-pointer"
                 onClick={enableTaskModal}>
                 Discard Changes
@@ -130,7 +130,7 @@ const FormModal: React.FC<FormModalProps> = ({ mode, id, title, description, sta
           )}
           {mode === 'create' && (
           <div className='buttons flex gap-2'>
-            <button type="submit" 
+            <button type="submit" data-cy='create-button'
               className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer"
               onClick={(e) => handleSubmit(e)}>
               Create Task

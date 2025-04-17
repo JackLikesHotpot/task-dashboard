@@ -60,7 +60,7 @@ const TaskDetails = () => {
         <p className="mb-4 font-semibold text-lg"><strong>ID:</strong> {id}</p>
         <p className="mb-4 font-semibold text-lg wrap-anywhere"><strong>Title:</strong> {task.title}</p>
         <p className="mb-4 font-semibold text-lg wrap-anywhere"><strong>Description:</strong> {task.description || 'No description available.'}</p>
-        <p className="mb-4 font-semibold text-lg">Status: {formatStatus(task.status)}</p>
+        <p className="mb-4 font-semibold text-lg"><strong>Status: </strong>{formatStatus(task.status)}</p>
         <p className="mb-4 font-semibold text-lg"><strong>Created At:</strong> <span className='font-mono'>{formatDate(task.createdAt)}</span></p>
         <p className="mb-4 font-semibold text-lg"><strong>Updated At:</strong> <span className='font-mono'>{formatDate(task.updatedAt)}</span></p>
         <p className="mb-4 font-semibold text-lg"><strong>Due Date:</strong> <span className='font-mono'>{formatDate(task.dueDate)}</span></p>
