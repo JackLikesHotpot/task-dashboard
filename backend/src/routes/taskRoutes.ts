@@ -12,7 +12,7 @@ router.post('/create', async (req, res) => {
   try {
     const task = await prisma.task.create({
       data: {
-        title, description, status, dueDate: new Date(dueDate)
+        title, description, status, due_date: new Date(dueDate)
       }
     })
     res.status(200).json(task)
@@ -65,7 +65,7 @@ router.put('/tasks/:id', async (req, res) => {
         id: id
       },
       data: {
-        title, status, description, dueDate: new Date(dueDate)
+        title, status, description, due_date: new Date(dueDate)
       }
     })
     res.json(task)

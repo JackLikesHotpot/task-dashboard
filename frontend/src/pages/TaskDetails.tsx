@@ -39,9 +39,9 @@ const TaskDetails = () => {
         <p className="mb-4 font-semibold text-lg wrap-anywhere"><strong>Title:</strong> {task.title}</p>
         <p className="mb-4 font-semibold text-lg wrap-anywhere"><strong>Description:</strong> {task.description || 'No description available.'}</p>
         <p className="mb-4 font-semibold text-lg"><strong>Status: </strong>{formatStatus(task.status)}</p>
-        <p className="mb-4 font-semibold text-lg"><strong>Created At:</strong> <span className='font-mono'>{formatDate(task.createdAt)}</span></p>
-        <p className="mb-4 font-semibold text-lg"><strong>Updated At:</strong> <span className='font-mono'>{formatDate(task.updatedAt)}</span></p>
-        <p className="mb-4 font-semibold text-lg"><strong>Due Date:</strong> <span className='font-mono'>{formatDate(task.dueDate)}</span></p>
+        <p className="mb-4 font-semibold text-lg"><strong>Created At:</strong> <span className='font-mono'>{formatDate(task.created_at)}</span></p>
+        <p className="mb-4 font-semibold text-lg"><strong>Updated At:</strong> <span className='font-mono'>{formatDate(task.updated_at)}</span></p>
+        <p className="mb-4 font-semibold text-lg"><strong>Due Date:</strong> <span className='font-mono'>{formatDate(task.due_date)}</span></p>
 
         <div className='buttons flex justify-center gap-2 mt-20'>
             <button type='button' className="px-6 py-2 bg-green-400 text-white rounded-lg hover:bg-green-700 transition duration-400 cursor-pointer"
@@ -60,7 +60,7 @@ const TaskDetails = () => {
           title={task.title}
           description={task.description}
           status={task.status}
-          dueDate={task.dueDate}
+          dueDate={task.due_date}
           enableTaskModal={handleClick}
         />
       )}

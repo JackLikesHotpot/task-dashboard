@@ -8,9 +8,9 @@ interface Task {
   title: string;
   description?: string;
   status: string;
-  dueDate: string;
-  createdAt: string;
-  updatedAt: string;
+  due_date: string;
+  created_at: string;
+  updated_at: string;
 }
 
 const TaskList = () => {
@@ -55,7 +55,7 @@ const TaskList = () => {
             id={task.id}
             title={task.title}
             status={task.status}
-            dueDate={task.dueDate}
+            dueDate={task.due_date}
           />
         ))
       )}

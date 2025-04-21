@@ -14,41 +14,41 @@ jest.mock('@prisma/client', () => {
             title: 'completed task', 
             description: 'desc', 
             status: 'COMPLETED', 
-            dueDate: new Date(Date.now()),
-            createdAt: new Date('2025-01-01')
+            due_date: new Date(Date.now()),
+            created_at: new Date('2025-01-01')
           },
           {
             id: 998,
             title: 'progress task',
             description: '',
             status: 'IN_PROGRESS',
-            dueDate: new Date('2025-12-31'),
-            createdAt: new Date('2022-01-01')
+            due_date: new Date('2025-12-31'),
+            created_at: new Date('2022-01-01')
           },
           {
             id: 997,
             title: 'blocked task',
             description: 'desc',
             status: 'BLOCKED',
-            dueDate: new Date('2025-12-31'),
-            createdAt: new Date('2020-01-01')
+            due_date: new Date('2025-12-31'),
+            created_at: new Date('2020-01-01')
           }
         ]),
         create: jest.fn().mockResolvedValue({
-            id: 1,
-            title: 'new task',
-            description: 'new description',
-            status: 'TO_DO',
-            dueDate: new Date('2025-12-31'),
-            createdAt: new Date('2020-01-01')
-          }),
+          id: 1,
+          title: 'new task',
+          description: 'new description',
+          status: 'TO_DO',
+          due_date: new Date('2025-12-31'),
+          created_at: new Date('2020-01-01')
+        }),
         update: jest.fn().mockResolvedValue({
           id: 999,
           title: 'changed name',
           description: 'changed desc',
           status: 'COMPLETED',
-          dueDate:  new Date('2025-01-01'),
-          createdAt: new Date('2020-01-01'),
+          due_date:  new Date('2025-01-01'),
+          created_at: new Date('2020-01-01'),
         }),
         delete: jest.fn(),
         findUnique: jest.fn().mockResolvedValue({ 
@@ -56,8 +56,8 @@ jest.mock('@prisma/client', () => {
           title: 'completed task', 
           description: 'desc', 
           status: 'COMPLETED', 
-          dueDate:  new Date('2025-01-01'),
-          createdAt: new Date('2020-01-01')
+          due_date:  new Date('2025-01-01'),
+          created_at: new Date('2020-01-01')
         }),
     },
     }))
@@ -75,8 +75,8 @@ const generateSampleData = async () => {
       title: 'task',
       description: 'desc',
       status: 'COMPLETED',
-      dueDate: new Date(Date.now()),
-      createdAt: new Date('2025-01-01')
+      due_date: new Date(Date.now()),
+      created_at: new Date('2025-01-01')
     }
   })
 
@@ -86,8 +86,8 @@ const generateSampleData = async () => {
       title: 'progress task',
       description: '',
       status: 'IN_PROGRESS',
-      dueDate: new Date(Date.now()),
-      createdAt: new Date('2022-01-01')
+      due_date: new Date(Date.now()),
+      created_at: new Date('2022-01-01')
     }
   })
 
@@ -97,8 +97,8 @@ const generateSampleData = async () => {
       title: 'blocked task',
       description: 'desc',
       status: 'BLOCKED',
-      dueDate: new Date(Date.now()),
-      createdAt: new Date('2020-01-01')
+      due_date: new Date(Date.now()),
+      created_at: new Date('2020-01-01')
     }
   })
 }
@@ -129,7 +129,7 @@ describe('Test API calls', () => {
       title: 'new task',
       description: 'new description',
       status: 'TO_DO',
-      dueDate: new Date('2026-01-01'),
+      due_date: new Date('2026-01-01'),
     }
 
     const res = await request(server).post('/api/create').send(task);
@@ -140,8 +140,8 @@ describe('Test API calls', () => {
       title: 'new task',
       description: 'new description',
       status: 'TO_DO',
-      dueDate: "2025-12-31T00:00:00.000Z",
-      createdAt: "2020-01-01T00:00:00.000Z"
+      due_date: "2025-12-31T00:00:00.000Z",
+      created_at: "2020-01-01T00:00:00.000Z"
     });
   });
   
@@ -151,7 +151,7 @@ describe('Test API calls', () => {
       title: 'changed name',
       description: 'changed desc',
       status: 'COMPLETED',
-      dueDate: new Date('2025-01-01'),
+      due_date: new Date('2025-01-01'),
     }
 
     const res = await request(server).put('/api/tasks/999').send(task);
@@ -162,7 +162,7 @@ describe('Test API calls', () => {
       title: task.title,
       description: task.description,
       status: task.status,
-      dueDate: task.dueDate.toISOString(),
+      due_date: task.due_date.toISOString(),
     });
   });
 

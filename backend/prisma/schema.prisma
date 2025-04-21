@@ -15,9 +15,9 @@ model Task {
   title     String
   description String?
   status    Status?
-  dueDate   DateTime
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  due_date   DateTime? @map("dueDate")
+  created_at DateTime @default(now()) @map("createdAt")
+  updated_at DateTime? @updatedAt @map("updatedAt")
 }
 
 enum Status {

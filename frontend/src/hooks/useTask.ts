@@ -6,9 +6,9 @@ interface Task {
   title: string;
   description?: string;
   status: string;
-  dueDate: string;
-  createdAt: string;
-  updatedAt: string;
+  due_date: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export function useTasks(id: string | undefined) {
