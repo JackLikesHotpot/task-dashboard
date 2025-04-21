@@ -1,41 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios'
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'
 import DeletePrompt from '../components/DeletePrompt/DeletePrompt';
 import formatDate from '../helpers/formatDate';
 import formatStatus from '../helpers/formatStatus';
 import FormModal from '../components/FormModal/FormModal';
-
-interface Task {
-  id: number;
-  title: string;
-  description?: string;
-  status: string;
-  dueDate: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import { useTasks } from '../hooks/useTask';
 
 const TaskDetails = () => {
-  const [task, setTask] = useState<Task>()
   const [showEditForm, setShowEditForm] = useState(false)
   const [showDeletePrompt, setShowDeletePrompt] = useState(false)
+  
   const { id } = useParams();
   const navigate = useNavigate();
+  const task = useTasks(id);
 
-  useEffect(() => {
-    const fetchTask = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3000/api/tasks/${id}`);
-        setTask(response.data)
-      } 
-      catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchTask();
-  }, [id]);
 
   const handleClick = () => {
     setShowEditForm(prevValue => !prevValue)

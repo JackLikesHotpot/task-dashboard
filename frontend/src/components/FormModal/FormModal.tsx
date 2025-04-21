@@ -109,7 +109,7 @@ const FormModal: React.FC<FormModalProps> = ({ mode, id, title, description, sta
           <div className='datepicker-box mb-4 flex flex-col'>
             <label className='text-sm font-semibold'>Due Date</label>
             <DatePicker
-              showIcon data-cy='datepicker'
+              showIcon
               selected={formDueDate ? new Date(formDueDate) : null}
               dateFormat="dd/MM/yyyy"
               onChange={handleDueDateChange}/>

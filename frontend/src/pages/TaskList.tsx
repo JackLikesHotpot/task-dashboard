@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import { useState } from 'react'
 import Task from '../components/Task/Task'
 import FormModal from '../components/FormModal/FormModal';
+import { useAllTasks } from '../hooks/useAllTasks';
 
 interface Task {
   id: number;
@@ -15,26 +15,9 @@ interface Task {
 
 const TaskList = () => {
   
-  const [tasks, setTasks] = useState<Task[]>([])
   const [newTask, showNewTask] = useState(false)
-  const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
-
-  useEffect(() => {
-    const fetchData = async () => {
-    try {
-        const response = await axios.get('http://localhost:3000/api/tasks')
-        setTasks(response.data)
-      }
-    catch (error) {
-      console.error(error)
-    }
-    finally {
-      setLoading(false)
-    }
-  };
-  fetchData();
-  }, [])
+  const { tasks, loading } = useAllTasks()
 
   const filteredTasks = tasks.filter(task =>
     task.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -65,6 +48,7 @@ const TaskList = () => {
       {loading ? (
         <></>
       ) : filteredTasks.length > 0 && (
+        <></> &&
         filteredTasks.map(task => (
           <Task
             key={task.id}
