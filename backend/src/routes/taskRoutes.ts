@@ -15,7 +15,10 @@ router.post('/create', async (req, res) => {
         title, description, status, due_date: new Date(dueDate)
       }
     })
-    res.status(200).json(task)
+    res.status(200).json({
+      message: 'Successfully created task.',
+      data: task
+    }); 
   }
   catch (error) {
     res.status(400).json({error: 'Error creating task'})
@@ -26,7 +29,10 @@ router.post('/create', async (req, res) => {
 router.get('/tasks', async (req, res) => {
   try {
     const tasks = await prisma.task.findMany()
-    res.status(200).json(tasks)
+    res.status(200).json({
+      message: 'Successfully retrieved tasks.',
+      data: tasks
+    }); 
   }
   catch (error) {
     res.status(400).json({error: 'Error getting tasks'})
@@ -44,13 +50,16 @@ router.get('/tasks/:id', async (req, res) => {
       }
     })
     if (!task) {
-      res.status(400).json({error: `Task with id ${id} does not exist`})
+      res.status(404).json({error: `Task with id ${id} does not exist`})
     }
-    res.status(200).json(task)
+    res.status(200).json({
+      message: `Successfully retrieved task of id ${id}.`,
+      data: task
+    });  
   }
 
   catch (error) {
-    res.status(400).json({error: `Error viewing task of id ${id}`})
+    res.status(500).json({error: `Error viewing task of id ${id}`})
   }
 })
 
@@ -68,7 +77,10 @@ router.put('/tasks/:id', async (req, res) => {
         title, status, description, due_date: new Date(dueDate)
       }
     })
-    res.json(task)
+    res.json(task).json({
+      message: `Task of ID ${id} updated successfully.`,
+      data: task
+    })
   }
   catch (error) {
     res.status(400).json({error: `Error updating task of id ${id}`})
@@ -84,7 +96,7 @@ router.delete('/tasks/:id', async (req, res) => {
         id: id
       }
     })
-    res.json(task)
+    res.json(task).json({ message: "Task deleted successfully."})
   }
   catch (error) {
     res.status(400).json({ error: `Failed to delete task with ID ${id}`})

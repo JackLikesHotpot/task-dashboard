@@ -112,13 +112,13 @@ describe('Test API calls', () => {
   it('should GET all tasks', async () => {
     const res = await request(server).get(`/api/tasks`)
     expect(res.statusCode).toBe(200)
-    expect(res.body).toHaveLength(3)
+    expect(res.body.data).toHaveLength(3)
   })
 
   it('should GET a task with a specific id', async () => {
     const res = await request(server).get(`/api/tasks/999`)
     expect(res.statusCode).toBe(200)
-    expect(res.body).toMatchObject({
+    expect(res.body.data).toMatchObject({
       id: 999,
       title: 'completed task'
     })
@@ -135,7 +135,7 @@ describe('Test API calls', () => {
     const res = await request(server).post('/api/create').send(task);
 
     expect(res.statusCode).toBe(200);
-    expect(res.body).toMatchObject({
+    expect(res.body.data).toMatchObject({
       id: 1,
       title: 'new task',
       description: 'new description',
